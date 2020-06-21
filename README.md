@@ -32,11 +32,9 @@ Path and filename of the BOM, default `bom.xml`
 
 ```
 uses: coderpatros/upload-bom-to-dependency-track
-env:
-  APIKEY: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
 with:
   serverhostname: 'example.com'
-  apikey: $APIKEY
+  apikey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
   projectname: 'Example Project'
   projectversion: 'master'
 ```
