@@ -22,7 +22,7 @@ This action uploads a software bill of materials file to a Dependency-Track serv
 
 ### `autocreate`
 
-Automatically create project and version in Dependency-Track, default `true`
+Automatically create project and version in Dependency-Track, default `false`
 
 ### `bomfilename`
 
