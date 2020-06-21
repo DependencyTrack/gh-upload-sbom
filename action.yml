@@ -16,7 +16,7 @@ inputs:
     required: true
   autocreate:
     description: "Automatically create the project in Dependency-Track if it doesn't exist"
-    default: true
+    default: false
     required: false
   bomfilename:
     description: 'Path and filename of the BOM'
