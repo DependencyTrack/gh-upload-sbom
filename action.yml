@@ -1,4 +1,5 @@
 name: 'Upload BOM to Dependency-Track'
+author: Patrick Dwyer
 description: 'Uploads a CycloneDX software bill of materials to a Dependency-Track server'
 inputs:
   serverhostname:
@@ -14,13 +15,13 @@ inputs:
     description: 'Project version in Dependency-Track'
     required: true
   autocreate:
-    description: 'Automatically create project and version in Dependency-Track'
+    description: "Automatically create the project in Dependency-Track if it doesn't exist"
     default: true
-    required: true
+    required: false
   bomfilename:
     description: 'Path and filename of the BOM'
     default: 'bom.xml'
-    required: true
+    required: false
 runs:
   using: 'node12'
   main: 'index.js'

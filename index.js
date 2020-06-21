@@ -7,7 +7,7 @@ try {
   const apiKey = core.getInput('apikey');
   const projectName = core.getInput('projectname');
   const projectVersion = core.getInput('projectversion');
-  const autoCreate = core.getInput('autocreate');
+  const autoCreate = core.getInput('autocreate') == 'true';
   const bomFilename = core.getInput('bomfilename');
 
   console.log(`Reading BOM: ${bomFilename}...`);
