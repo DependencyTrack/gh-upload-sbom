@@ -30,6 +30,7 @@ Path and filename of the BOM, default `bom.xml`
 
 ## Example usage
 
+```
 uses: coderpatros/upload-bom-to-dependency-track
 env:
   APIKEY: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
@@ -38,3 +39,4 @@ with:
   apikey: $APIKEY
   projectname: 'Example Project'
   projectversion: 'master'
+```
