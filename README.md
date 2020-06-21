@@ -2,8 +2,6 @@
 
 This action uploads a software bill of materials file to a Dependency-Track server.
 
-This action is currently in "preview". Please try it out and let me know if you come across any issues.
-
 ## Inputs
 
 ### `serverhostname`
@@ -24,11 +22,11 @@ This action is currently in "preview". Please try it out and let me know if you 
 
 ### `autocreate`
 
-**Required** Automatically create project and version in Dependency-Track, default `True`
+Automatically create project and version in Dependency-Track, default `true`
 
 ### `bomfilename`
 
-**Required** Path and filename of the BOM, default `bom.xml`
+Path and filename of the BOM, default `bom.xml`
 
 ## Example usage
 
