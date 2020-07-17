@@ -31,7 +31,7 @@ Path and filename of the BOM, default `bom.xml`
 ## Example usage
 
 ```
-uses: coderpatros/upload-bom-to-dependency-track
+uses: coderpatros/gh-upload-bom-to-dependency-track@v1
 with:
   serverhostname: 'example.com'
   apikey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
