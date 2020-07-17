@@ -1,4 +1,4 @@
-name: 'Upload BOM to Dependency-Track'
+name: 'Upload BOM to Dependency-Track (Unofficial)'
 author: Patrick Dwyer
 description: 'Uploads a CycloneDX software bill of materials to a Dependency-Track server'
 inputs:
