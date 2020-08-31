@@ -5,6 +5,10 @@ inputs:
   serverhostname:
     description: 'Dependency-Track hostname'
     required: true
+  port:
+    description: 'Dependency-Track port'
+    required: false
+    default: 443
   apikey:
     description: 'Dependency-Track API key'
     required: true

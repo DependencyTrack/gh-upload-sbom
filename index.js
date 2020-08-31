@@ -4,6 +4,7 @@ const core = require('@actions/core');
 
 try {
   const serverHostname = core.getInput('serverhostname');
+  const port = core.getInput('port');
   const apiKey = core.getInput('apikey');
   const projectName = core.getInput('projectname');
   const projectVersion = core.getInput('projectversion');
@@ -29,6 +30,7 @@ try {
 
   const requestOptions = {
     hostname: serverHostname,
+    port: port,
     path: '/api/v1/bom',
     method: 'PUT',
     headers: {
