@@ -8,6 +8,10 @@ This action uploads a software bill of materials file to a Dependency-Track serv
 
 **Required** Dependency-Track hostname
 
+### `port`
+
+Defaults to 443
+
 ### `apikey`
 
 **Required** Dependency-Track API key
