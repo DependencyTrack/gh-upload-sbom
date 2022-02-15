@@ -32,7 +32,6 @@ try {
   }
 
   const postData = JSON.stringify(bomPayload);
-  console.log(`Post data: ${postData}`);
 
   const requestOptions = {
     hostname: serverHostname,
