@@ -22,13 +22,17 @@ Defaults to `https`
 
 **Required** Dependency-Track API key
 
+### `project`
+
+**Required, unless projectname and projectversion are provided** Project uuid in Dependency-Track
+
 ### `projectname`
 
-**Required** Project name in Dependency-Track
+**Required, unless project is provided** Project name in Dependency-Track
 
 ### `projectversion`
 
-**Required** Project version in Dependency-Track
+**Required, unless project is provided** Project version in Dependency-Track
 
 ### `autocreate`
 
@@ -40,6 +44,7 @@ Path and filename of the BOM, default `bom.xml`
 
 ## Example usage
 
+With project name and version:
 ```
 uses: DependencyTrack/gh-upload-sbom@v1.0.0
 with:
@@ -47,4 +52,13 @@ with:
   apikey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
   projectname: 'Example Project'
   projectversion: 'master'
+```
+
+With project uuid:
+```
+uses: DependencyTrack/gh-upload-sbom@v1.0.0
+with:
+  serverhostname: 'example.com'
+  apikey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
+  project: 'dadec8ad-7053-4e8c-8044-7b6ef698e08d'
 ```
