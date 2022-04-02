@@ -6,10 +6,15 @@ try {
   const serverHostname = core.getInput('serverhostname');
   const port = core.getInput('port');
   const apiKey = core.getInput('apikey');
+  const project = core.getInput('project');
   const projectName = core.getInput('projectname');
   const projectVersion = core.getInput('projectversion');
   const autoCreate = core.getInput('autocreate') != 'false';
   const bomFilename = core.getInput('bomfilename');
+
+  if (project == "" && (projectName == "" || projectVersion == "")) {
+    throw 'project or projectName + projectVersion must be set'
+  }
 
   console.log(`Reading BOM: ${bomFilename}...`);
   const bomContents = fs.readFileSync(bomFilename);
@@ -19,6 +24,7 @@ try {
   }
 
   const bomPayload = {
+    project: project,
     projectName: projectName,
     projectVersion: projectVersion,
     autoCreate: autoCreate,
@@ -26,7 +32,6 @@ try {
   }
 
   const postData = JSON.stringify(bomPayload);
-  console.log(`Post data: ${postData}`);
 
   const requestOptions = {
     hostname: serverHostname,
