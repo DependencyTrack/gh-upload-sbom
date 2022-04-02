@@ -12,6 +12,12 @@ This action uploads a software bill of materials file to a Dependency-Track serv
 
 Defaults to 443
 
+### `protocol`
+
+Can be `https` or `http`
+
+Defaults to `https`
+
 ### `apikey`
 
 **Required** Dependency-Track API key

@@ -9,6 +9,10 @@ inputs:
     description: 'Dependency-Track port'
     required: false
     default: 443
+  protocol:
+    description: 'Dependency-Track protocol'
+    required: false
+    default: 'https'
   apikey:
     description: 'Dependency-Track API key'
     required: true
