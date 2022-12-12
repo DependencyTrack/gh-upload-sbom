@@ -31,12 +31,17 @@ try {
     encodedBomContents = encodedBomContents.substring(4);
   }
 
-  const bomPayload = {
-    project: project,
-    projectName: projectName,
-    projectVersion: projectVersion,
-    autoCreate: autoCreate,
-    bom: encodedBomContents
+  if (project == "") {
+    const bomPayload = {
+      projectName: projectName,
+      projectVersion: projectVersion,
+      autoCreate: autoCreate,
+      bom: encodedBomContents
+    }
+  } else {
+    const bomPayload = {
+      project: project,
+      bom: encodedBomContents
   }
 
   const postData = JSON.stringify(bomPayload);
