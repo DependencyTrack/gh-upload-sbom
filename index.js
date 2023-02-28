@@ -20,6 +20,14 @@ try {
   }
   const client = (protocol == "http") ? http : https
 
+  if (autoCreate && (projectName == "" || projectVersion == "")) {
+    throw 'if autoCreate is set projectName and projectVersion are required'
+  } 
+
+  if (!autoCreate && project == "") {
+    throw 'project can\'t be empty if autoCreate is false'
+  }
+
   if (project == "" && (projectName == "" || projectVersion == "")) {
     throw 'project or projectName + projectVersion must be set'
   }
@@ -31,14 +39,21 @@ try {
     encodedBomContents = encodedBomContents.substring(4);
   }
 
-  const bomPayload = {
-    project: project,
-    projectName: projectName,
-    projectVersion: projectVersion,
-    autoCreate: autoCreate,
-    bom: encodedBomContents
+  if (autoCreate) {
+    const bomPayload = {
+      projectName: projectName,
+      projectVersion: projectVersion,
+      autoCreate: autoCreate,
+      bom: encodedBomContents
+    }
+  } else {
+    const bomPayload = {
+      project: project,
+      bom: encodedBomContents
+    }
   }
 
+  
   const postData = JSON.stringify(bomPayload);
 
   const requestOptions = {
@@ -61,7 +76,8 @@ try {
     if (res.statusCode >= 200 && res.statusCode < 300) {
       console.log('Finished uploading BOM to Dependency-Track server.')
     } else {
-      core.setFailed('Failed response status code:' + res.statusCode);
+      core.setFailed('Failed with response status code:' + res.statusCode 
+        + ' and status message: ' + res.statusMessage);
     }
   });
 
