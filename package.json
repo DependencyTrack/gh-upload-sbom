@@ -1,0 +1,20 @@
+{
+    "name": "gh-upload-sbom",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Uploads a CycloneDX software bill of materials to a Dependency-Track server",
+    "main": "index.js",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/DependencyTrack/gh-upload-sbom.git"
+    },
+    "author": "Patrick Dwyer",
+    "license": "Apache 2.0",
+    "bugs": {
+      "url": "https://github.com/DependencyTrack/gh-upload-sbom/issues"
+    },
+    "homepage": "https://github.com/DependencyTrack/gh-upload-sbom#readme",
+    "dependencies": {
+      "@actions/core": "^1.10.0"
+    }
+  }
