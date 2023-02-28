@@ -26,7 +26,7 @@ inputs:
     description: 'Project version in Dependency-Track'
     required: false
   autocreate:
-    description: "Automatically create the project in Dependency-Track if it doesn't exist"
+    description: 'Automatically create the project in Dependency-Track if it doesn't exist'
     default: 'false'
     required: false
   bomfilename:
@@ -34,5 +34,5 @@ inputs:
     default: 'bom.xml'
     required: false
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'index.js'
