@@ -56,6 +56,21 @@ with:
   autoCreate: true
 ```
 
+With protocol, port and project name:
+```
+  - name: SBOM zu DependencyTrack senden
+    uses: freenet-actions/gh-upload-sbom@master
+    with:
+      protocol: ${{ secrets.DEPENDENCYTRACK_PROTOCOL }}
+      serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
+      port: ${{ secrets.DEPENDENCYTRACK_PORT }}
+      apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
+      projectName: 'Example Project'
+      projectVersion: 'master'
+      bomFilename: "/path/to/bom.xml"
+      autoCreate: true
+```
+
 With project uuid:
 ```
 uses: DependencyTrack/gh-upload-sbom@v1.0.0
