@@ -6,15 +6,15 @@ const core = require('@actions/core');
 core.info('Dependency-Track BOM Upload Action');
 
 try {
-  const serverHostname = core.getInput('serverhostname');
+  const serverHostname = core.getInput('serverHostname');
   const port = core.getInput('port');
   const protocol = core.getInput('protocol');
-  const apiKey = core.getInput('apikey');
+  const apiKey = core.getInput('apiKey');
   const project = core.getInput('project');
-  const projectName = core.getInput('projectname');
-  const projectVersion = core.getInput('projectversion');
-  const autoCreate = core.getInput('autocreate') !== 'false';
-  const bomFilename = core.getInput('bomfilename');
+  const projectName = core.getInput('projectName');
+  const projectVersion = core.getInput('projectVersion');
+  const autoCreate = core.getInput('autoCreate') !== 'false';
+  const bomFilename = core.getInput('bomFilename');
 
   if (protocol !== "http" && protocol !== "https") {
     throw new Error('protocol "' + protocol + '" not supported, must be one of: https, http')
