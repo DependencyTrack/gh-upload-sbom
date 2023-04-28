@@ -40,15 +40,16 @@ try {
     encodedBomContents = encodedBomContents.substring(4);
   }
 
+  let bomPayload;
   if (autoCreate) {
-    const bomPayload = {
+    bomPayload = {
       projectName: projectName,
       projectVersion: projectVersion,
       autoCreate: autoCreate,
       bom: encodedBomContents
     }
   } else {
-    const bomPayload = {
+    bomPayload = {
       project: project,
       bom: encodedBomContents
     }
