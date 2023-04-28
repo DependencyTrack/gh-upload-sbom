@@ -3,6 +3,8 @@ const http = require('http');
 const https = require('https');
 const core = require('@actions/core');
 
+core.info('Dependency-Track BOM Upload Action');
+
 try {
   const serverHostname = core.getInput('serverhostname');
   const port = core.getInput('port');
@@ -11,28 +13,27 @@ try {
   const project = core.getInput('project');
   const projectName = core.getInput('projectname');
   const projectVersion = core.getInput('projectversion');
-  const autoCreate = core.getInput('autocreate') != 'false';
+  const autoCreate = core.getInput('autocreate') !== 'false';
   const bomFilename = core.getInput('bomfilename');
 
-
-  if (protocol != "http" && protocol != "https") {
-    throw 'protocol "' + protocol + '" not supported, must be one of: https, http'
+  if (protocol !== "http" && protocol !== "https") {
+    throw new Error('protocol "' + protocol + '" not supported, must be one of: https, http')
   }
-  const client = (protocol == "http") ? http : https
+  const client = (protocol === "http") ? http : https
 
-  if (autoCreate && (projectName == "" || projectVersion == "")) {
-    throw 'if autoCreate is set projectName and projectVersion are required'
-  }
-
-  if (!autoCreate && project == "") {
-    throw 'project can\'t be empty if autoCreate is false'
+  if (autoCreate && (projectName === "" || projectVersion === "")) {
+    throw new Error('if autoCreate is set projectName and projectVersion are required')
   }
 
-  if (project == "" && (projectName == "" || projectVersion == "")) {
-    throw 'project or projectName + projectVersion must be set'
+  if (!autoCreate && project === "") {
+    throw new Error('project can\'t be empty if autoCreate is false')
   }
 
-  console.log(`Reading BOM: ${bomFilename}...`);
+  if (project === "" && (projectName === "" || projectVersion === "")) {
+    throw new Error('project or projectName + projectVersion must be set')
+  }
+
+  core.info(`Reading BOM: ${bomFilename}...`);
   const bomContents = fs.readFileSync(bomFilename);
   let encodedBomContents = Buffer.from(bomContents).toString('base64');
   if (encodedBomContents.startsWith('77u/')) {
@@ -68,12 +69,12 @@ try {
     }
   }
 
-  console.log(`Uploading to Dependency-Track server ${serverHostname}...`);
+  core.info(`Uploading to Dependency-Track server ${serverHostname}...`);
 
   const req = client.request(requestOptions, (res) => {
-    console.log('Response status code:', res.statusCode);
+    core.info('Response status code:' + res.statusCode);
     if (res.statusCode >= 200 && res.statusCode < 300) {
-      console.log('Finished uploading BOM to Dependency-Track server.')
+      core.info('Finished uploading BOM to Dependency-Track server.')
     } else {
       core.setFailed('Failed with response status code:' + res.statusCode
           + ' and status message: ' + res.statusMessage);
@@ -81,7 +82,7 @@ try {
   });
 
   req.on('error', (e) => {
-    console.error(`Problem with request: ${e.message}`);
+    core.error(`Problem with request: ${e.message}`);
     core.setFailed(e.message);
   });
 
@@ -89,5 +90,6 @@ try {
   req.end();
 
 } catch (error) {
+  core.error(error);
   core.setFailed(error.message);
 }
