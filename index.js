@@ -22,7 +22,7 @@ try {
   const client = (protocol === "http") ? http : https
 
   if (autoCreate && (projectName === "" || projectVersion === "")) {
-    throw new Error('if autoCreate is set projectName and projectVersion are required')
+    throw new Error('If autoCreate is set projectName and projectVersion are required')
   }
 
   if (!autoCreate && project === "") {
@@ -90,6 +90,5 @@ try {
   req.end();
 
 } catch (error) {
-  core.error(error);
   core.setFailed(error.message);
 }
