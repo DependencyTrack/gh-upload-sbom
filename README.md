@@ -46,7 +46,7 @@ Path and filename of the BOM, default `bom.xml`
 
 With project name and version:
 ```
-uses: DependencyTrack/gh-upload-sbom@v1.0.0
+uses: freenet-actions/gh-upload-sbom@master
 with:
   serverHostname: 'example.com'
   apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
@@ -73,7 +73,7 @@ With protocol, port and project name:
 
 With project uuid:
 ```
-uses: DependencyTrack/gh-upload-sbom@v1.0.0
+uses: freenet-actions/gh-upload-sbom@master
 with:
   serverHostname: 'example.com'
   apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
