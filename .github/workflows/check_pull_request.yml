@@ -1,0 +1,25 @@
+name: Check Pull-Request
+
+on:
+  pull_request:
+    types: [opened, reopened, labeled, unlabeled]
+
+jobs:
+  labels:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Please check the labels
+        uses: mheap/github-action-required-labels@v4
+        with:
+          mode: exactly
+          count: 1
+          labels: "release:patch, release:minor, release:major"
+          add_comment: true
+          message: "Pull-Request denied. \n
+          Exactly one of the following labels have to be set: \n
+          - release:patch\n
+          - release:minor\n
+          - release:major"

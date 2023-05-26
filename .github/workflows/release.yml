@@ -1,0 +1,51 @@
+name: Release
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  release:
+    if: github.event.pull_request.merged == true || github.event.inputs.release == 'true'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          junit_files: '**/test-results/**/*.xml'
+
+      - name: Release erstellen
+        id: create_release
+        uses: freenet-actions/release-on-push-action@master
+        env:
+          GITHUB_TOKEN: ${{ env.TOKEN }}
+        with:
+          tag_prefix: ""
+          bump_version_scheme: patch
+          use_github_release_notes: true
+
+      - name: Output Parameters nach Release Erstellung
+        run: |
+          echo "Got tag name ${{ steps.create_release.outputs.tag_name }}"
+          echo "Got release version ${{ steps.create_release.outputs.version }}"
+          echo "Upload release artifacts to ${{ steps.create_release.outputs.upload_url }}"
+          echo "Body ${{ steps.create_release.outputs.body }}"

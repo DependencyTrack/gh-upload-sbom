@@ -1,0 +1,23 @@
+name: Check Code
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  marks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Create Comment
+        uses: gkampitakis/github-action-todo-commenter@v1
+        with:
+          comment-title: "Marks in Code"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          ignore-pattern: '.md$|^\.github/workflows/'
+          review-message: "Please check the following entries :eyes:"
+          tags:  "TODO:,FIXME:,BUG:,DOCME:,DEPRECATED:"
