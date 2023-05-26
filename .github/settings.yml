@@ -1,0 +1,46 @@
+# Repository settings
+repository:
+  # Repository description and homepage URL
+  description: "Publishes BOMs to Dependency-Track from GitHub Actions"
+  # Default branch of the repository
+  default_branch: main
+
+  # Features
+  has_issues: true  # Enables the issue tracker
+  has_projects: false  # Enables the project boards
+  has_wiki: false  # Disables the wiki
+
+  # Security settings
+  allow_squash_merge: false
+  allow_merge_commit: false
+  allow_rebase_merge: false
+
+# Branch protection rules
+protection:
+  # Apply these rules to the main branch
+  - name: main
+    # Require pull request reviews before merging
+    required_pull_request_reviews:
+      required_approving_review_count: 1
+    # Require status checks to pass before merging
+    required_status_checks:
+      strict: true
+      contexts: []
+    # Enforce all configured restrictions for administrators as well
+    enforce_admins: true
+    # Disallow force pushes
+    allow_force_pushes: false
+    # Disallow deletions
+    allow_deletions: false
+
+# Labels settings
+labels:
+  - name: release:major
+    color: 570902
+    description: "Changes that result in a major version bump"
+  - name: release:minor
+    color: CDD101
+    description: "Changes that add new features but do not result in a major version bump"
+  - name: release:patch
+    color: BEEA71
+    description: "Changes that fix bugs or make minor improvements, and do not add new features or result in a major or minor version bump"
