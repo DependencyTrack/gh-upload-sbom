@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
+    }
+  ],
+  "ignorePaths": [".github/workflows"],
+  "separateMajorMinor": true,
+  "separateMultipleMajor": true,
+  "separateMinorPatch": true,
+  "labels": ["renovate"],
+  "assignAutomerge": true,
+  "assigneesSampleSize": 1,
+  "stabilityDays": 5,
+  "prCreation": "not-pending",
+  "prHourlyLimit": 5,
+  "vulnerabilityAlerts": {
+    "labels": ["security"]
+  },
+  "assignees": ["DasBen"]
+}
