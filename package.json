@@ -1,5 +1,9 @@
 {
   "dependencies": {
-    "@actions/core": "^1.10.0"
+    "@actions/core": "^1.10.0",
+    "mocha": "^10.2.0"
+  },
+  "scripts": {
+    "test": "mocha test.js"
   }
 }
