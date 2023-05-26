@@ -43,4 +43,4 @@ labels:
     description: "Changes that add new features but do not result in a major version bump"
   - name: release:patch
     color: BEEA71
-    description: "Changes that fix bugs or make minor improvements, and do not add new features or result in a major or minor version bump"
+    description: "Changes that fix bugs or make minor improvements"
