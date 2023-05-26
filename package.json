@@ -4,6 +4,9 @@
     "mocha": "^10.2.0"
   },
   "scripts": {
-    "test": "mocha test.js"
+    "test": "mocha test.js --reporter mocha-junit-reporter"
+  },
+  "devDependencies": {
+    "mocha-junit-reporter": "^2.2.0"
   }
 }

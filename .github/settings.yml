@@ -12,8 +12,8 @@ repository:
 
   # Security settings
   allow_squash_merge: false
-  allow_merge_commit: false
-  allow_rebase_merge: false
+  allow_merge_commit: true
+  allow_rebase_merge: true
 
 # Branch protection rules
 protection:
