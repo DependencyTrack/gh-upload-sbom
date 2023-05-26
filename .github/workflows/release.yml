@@ -8,8 +8,6 @@ jobs:
   release:
     if: github.event.pull_request.merged == true || github.event.inputs.release == 'true'
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -37,7 +35,7 @@ jobs:
         id: create_release
         uses: freenet-actions/release-on-push-action@master
         env:
-          GITHUB_TOKEN: ${{ env.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_prefix: ""
           bump_version_scheme: patch
