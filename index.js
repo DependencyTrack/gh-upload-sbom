@@ -2,16 +2,8 @@ const fs = require('fs');
 const http = require('http');
 const https = require('https');
 const core = require('@actions/core');
-const { execSync } = require('child_process');
 
 core.info('Dependency-Track BOM Upload Action');
-
-try {
-  execSync('npm ci');
-} catch (error) {
-  console.error('Error installing dependencies:', error.message);
-  process.exit(1);
-}
 
 try {
   const serverHostname = core.getInput('serverHostname');
