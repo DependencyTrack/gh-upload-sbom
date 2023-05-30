@@ -33,7 +33,7 @@ jobs:
 
       - name: Release erstellen
         id: create_release
-        uses: freenet-actions/release-on-push-action@master
+        uses: freenet-actions/release-on-push-action@0.28.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
