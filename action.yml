@@ -8,7 +8,7 @@ inputs:
   port:
     description: 'Dependency-Track port'
     required: false
-    default: 443
+    default: '443'
   protocol:
     description: 'Dependency-Track protocol'
     required: false
@@ -34,5 +34,5 @@ inputs:
     default: 'bom.xml'
     required: false
 runs:
-  using: 'node16'
-  main: 'index.js'
+  using: 'docker'
+  image: 'Dockerfile'
