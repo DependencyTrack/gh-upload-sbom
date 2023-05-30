@@ -34,5 +34,5 @@ inputs:
     default: 'bom.xml'
     required: false
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'node16'
+  main: 'index.js'
