@@ -46,7 +46,7 @@ Path and filename of the BOM, default `bom.xml`
 
 With project name and version:
 ```
-uses: DependencyTrack/gh-upload-sbom@v1.0.0
+uses: DependencyTrack/gh-upload-sbom@v2.0.0
 with:
   serverhostname: 'example.com'
   apikey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
@@ -56,7 +56,7 @@ with:
 
 With project uuid:
 ```
-uses: DependencyTrack/gh-upload-sbom@v1.0.0
+uses: DependencyTrack/gh-upload-sbom@v2.0.0
 with:
   serverhostname: 'example.com'
   apikey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
