@@ -1,0 +1,14 @@
+{
+  "name": "gh-upload-sbom",
+  "version": "2.0.0",
+  "description": "Publishes BOMs to Dependency-Track from GitHub Actions",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DependencyTrack/gh-upload-sbom"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@actions/core": "^1.10.0"
+  }
+}
