@@ -4,7 +4,7 @@ This action uploads a software bill of materials file to a Dependency-Track serv
 
 ## Inputs
 
-### `serverhostname`
+### `serverHostname`
 
 **Required** Dependency-Track hostname
 
@@ -18,7 +18,7 @@ Can be `https` or `http`
 
 Defaults to `https`
 
-### `apikey`
+### `apiKey`
 
 **Required** Dependency-Track API key
 
@@ -26,19 +26,19 @@ Defaults to `https`
 
 **Required, unless projectname and projectversion are provided** Project uuid in Dependency-Track
 
-### `projectname`
+### `projectName`
 
 **Required, unless project is provided** Project name in Dependency-Track
 
-### `projectversion`
+### `projectVersion`
 
 **Required, unless project is provided** Project version in Dependency-Track
 
-### `autocreate`
+### `autoCreate`
 
 Automatically create project and version in Dependency-Track, default `false`
 
-### `bomfilename`
+### `bomFilename`
 
 Path and filename of the BOM, default `bom.xml`
 
@@ -48,17 +48,34 @@ With project name and version:
 ```
 uses: DependencyTrack/gh-upload-sbom@v2.0.0
 with:
-  serverhostname: 'example.com'
-  apikey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
-  projectname: 'Example Project'
-  projectversion: 'master'
+  serverHostname: 'example.com'
+  apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
+  projectName: 'Example Project'
+  projectVersion: 'master'
+  bomFilename: "/path/to/bom.xml"
+  autoCreate: true
+```
+
+With protocol, port and project name:
+```
+  - name: SBOM zu DependencyTrack senden
+    uses: DependencyTrack/gh-upload-sbom@v2.0.0
+    with:
+      protocol: ${{ secrets.DEPENDENCYTRACK_PROTOCOL }}
+      serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
+      port: ${{ secrets.DEPENDENCYTRACK_PORT }}
+      apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
+      projectName: 'Example Project'
+      projectVersion: 'master'
+      bomFilename: "/path/to/bom.xml"
+      autoCreate: true
 ```
 
 With project uuid:
 ```
 uses: DependencyTrack/gh-upload-sbom@v2.0.0
 with:
-  serverhostname: 'example.com'
-  apikey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
+  serverHostname: 'example.com'
+  apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
   project: 'dadec8ad-7053-4e8c-8044-7b6ef698e08d'
 ```

@@ -15,12 +15,12 @@ try {
   const bomFilename = core.getInput('bomfilename');
 
 
-  if (protocol != "http" && protocol != "https") {
+  if (protocol !== "http" && protocol !== "https") {
     throw 'protocol "' + protocol + '" not supported, must be one of: https, http'
   }
-  const client = (protocol == "http") ? http : https
+  const client = (protocol === "http") ? http : https
 
-  if (project == "" && (projectName == "" || projectVersion == "")) {
+  if (project === "" && (projectName === "" || projectVersion === "")) {
     throw 'project or projectName + projectVersion must be set'
   }
 

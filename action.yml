@@ -8,7 +8,7 @@ inputs:
   port:
     description: 'Dependency-Track port'
     required: false
-    default: 443
+    default: '443'
   protocol:
     description: 'Dependency-Track protocol'
     required: false
