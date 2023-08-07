@@ -11,7 +11,7 @@ try {
   const project = core.getInput('project');
   const projectName = core.getInput('projectname');
   const projectVersion = core.getInput('projectversion');
-  const autoCreate = core.getInput('autocreate') != 'false';
+  const autoCreate = core.getInput('autocreate') !== 'false';
   const bomFilename = core.getInput('bomfilename');
 
 
@@ -24,19 +24,34 @@ try {
     throw 'project or projectName + projectVersion must be set'
   }
 
-  console.log(`Reading BOM: ${bomFilename}...`);
+  if (!autoCreate && project === "") {
+    throw 'project can\'t be empty if autoCreate is false'
+  }
+
+  if (project === "" && (projectName === "" || projectVersion === "")) {
+    throw 'project or projectName + projectVersion must be set'
+  }
+
+  core.info(`Reading BOM: ${bomFilename}...`);
   const bomContents = fs.readFileSync(bomFilename);
   let encodedBomContents = Buffer.from(bomContents).toString('base64');
   if (encodedBomContents.startsWith('77u/')) {
     encodedBomContents = encodedBomContents.substring(4);
   }
 
-  const bomPayload = {
-    project: project,
-    projectName: projectName,
-    projectVersion: projectVersion,
-    autoCreate: autoCreate,
-    bom: encodedBomContents
+  let bomPayload;
+  if (autoCreate) {
+    bomPayload = {
+      projectName: projectName,
+      projectVersion: projectVersion,
+      autoCreate: autoCreate,
+      bom: encodedBomContents
+    }
+  } else {
+    bomPayload = {
+      project: project,
+      bom: encodedBomContents
+    }
   }
 
   const postData = JSON.stringify(bomPayload);
@@ -54,19 +69,19 @@ try {
     }
   }
 
-  console.log(`Uploading to Dependency-Track server ${serverHostname}...`);
+  core.info(`Uploading to Dependency-Track server ${serverHostname}...`);
 
   const req = client.request(requestOptions, (res) => {
-    console.log('Response status code:', res.statusCode);
+    core.info('Response status code:', res.statusCode);
     if (res.statusCode >= 200 && res.statusCode < 300) {
-      console.log('Finished uploading BOM to Dependency-Track server.')
+      core.info('Finished uploading BOM to Dependency-Track server.')
     } else {
       core.setFailed('Failed response status code:' + res.statusCode);
     }
   });
 
   req.on('error', (e) => {
-    console.error(`Problem with request: ${e.message}`);
+    core.error(`Problem with request: ${e.message}`);
     core.setFailed(e.message);
   });
 
