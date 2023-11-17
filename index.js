@@ -13,7 +13,9 @@ try {
   const projectVersion = core.getInput('projectversion');
   const autoCreate = core.getInput('autocreate') !== 'false';
   const bomFilename = core.getInput('bomfilename');
-
+  const parent = core.getInput('parent');
+  const parentName = core.getInput('parentname');
+  const parentVersion = core.getInput('parentversion');
 
   if (protocol !== "http" && protocol !== "https") {
     throw 'protocol "' + protocol + '" not supported, must be one of: https, http'
@@ -52,6 +54,13 @@ try {
       project: project,
       bom: encodedBomContents
     }
+  }
+
+  if (parent && parent.trim().length > 0) {
+    bomPayload.parent = parent;
+  } else if (parentName && parentName.trim().length > 0 && parentVersion && parentVersion.trim().length > 0) {
+    bomPayload.parentName = parentName;
+    bomPayload.parentVersion = parentVersion;
   }
 
   const postData = JSON.stringify(bomPayload);

@@ -33,6 +33,15 @@ inputs:
     description: 'Path and filename of the BOM'
     default: 'bom.xml'
     required: false
+  parent:
+    description: 'Parent project in Dependency-Track'
+    required: false
+  parentname:
+    description: 'Parent name in Dependency-Track'
+    required: false
+  parentversion:
+    description: 'Parent version in Dependency-Track'
+    required: false
 runs:
   using: 'node16'
   main: 'index.js'
