@@ -34,6 +34,10 @@ try {
     throw 'project or projectName + projectVersion must be set'
   }
 
+  if ((parentName === "" && parentVersion !== "") || (parentName !== "" && parentVersion === "")) {
+    throw 'parentName + parentVersion must both be set'
+  }
+
   core.info(`Reading BOM: ${bomFilename}...`);
   const bomContents = fs.readFileSync(bomFilename);
   let encodedBomContents = Buffer.from(bomContents).toString('base64');
