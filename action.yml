@@ -43,5 +43,5 @@ inputs:
     description: 'Parent version in Dependency-Track'
     required: false
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'index.js'
