@@ -85,12 +85,23 @@ try {
   core.info(`Uploading to Dependency-Track server ${serverHostname}...`);
 
   const req = client.request(requestOptions, (res) => {
-    core.info('Response status code:', res.statusCode);
-    if (res.statusCode >= 200 && res.statusCode < 300) {
-      core.info('Finished uploading BOM to Dependency-Track server.')
-    } else {
-      core.setFailed('Failed response status code:' + res.statusCode);
-    }
+    core.info(`Response status code: ${res.statusCode}`);
+    let responseData = '';
+
+    res.on('data', (chunk) => {
+      responseData += chunk;
+    });
+
+    res.on('end', () => {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          core.info('Finished uploading BOM to Dependency-Track server.');
+          const responseJson = JSON.parse(responseData);
+          const token = responseJson.token;
+          core.setOutput('token', token);
+        } else {
+          core.setFailed('Failed response status code: ' + res.statusCode);
+        }
+    });
   });
 
   req.on('error', (e) => {
