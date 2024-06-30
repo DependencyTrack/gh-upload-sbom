@@ -58,7 +58,7 @@ Parent project uuid in Dependency-Track
 
 With project name and version:
 ```
-uses: DependencyTrack/gh-upload-sbom@v2.0.0
+uses: DependencyTrack/gh-upload-sbom@v3.0.0
 with:
   serverHostname: 'example.com'
   apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
@@ -71,7 +71,7 @@ with:
 With protocol, port and project name:
 ```
   - name: SBOM zu DependencyTrack senden
-    uses: DependencyTrack/gh-upload-sbom@v2.0.0
+    uses: DependencyTrack/gh-upload-sbom@v3.0.0
     with:
       protocol: ${{ secrets.DEPENDENCYTRACK_PROTOCOL }}
       serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
@@ -85,7 +85,7 @@ With protocol, port and project name:
 
 With project uuid:
 ```
-uses: DependencyTrack/gh-upload-sbom@v2.0.0
+uses: DependencyTrack/gh-upload-sbom@v3.0.0
 with:
   serverHostname: 'example.com'
   apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
@@ -95,7 +95,7 @@ with:
 With protocol, port, project name and parent name:
 ```
   - name: SBOM zu DependencyTrack senden
-    uses: DependencyTrack/gh-upload-sbom@v2.0.0
+    uses: DependencyTrack/gh-upload-sbom@v3.0.0
     with:
       protocol: ${{ secrets.DEPENDENCYTRACK_PROTOCOL }}
       serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
@@ -111,7 +111,7 @@ With protocol, port, project name and parent name:
 
 With parent uuid:
 ```
-uses: DependencyTrack/gh-upload-sbom@v2.0.0
+uses: DependencyTrack/gh-upload-sbom@v3.0.0
 with:
   serverHostname: 'example.com'
   apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
