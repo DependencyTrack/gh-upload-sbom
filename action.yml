@@ -25,6 +25,10 @@ inputs:
   projectversion:
     description: 'Project version in Dependency-Track'
     required: false
+  projecttags:
+    description: 'Project tags in Dependency-Track'
+    default: ''
+    required: false
   autocreate:
     description: "Automatically create the project in Dependency-Track if it doesn't exist"
     default: 'false'

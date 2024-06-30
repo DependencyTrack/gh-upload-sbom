@@ -34,6 +34,10 @@ Defaults to `https`
 
 **Required, unless project is provided** Project version in Dependency-Track
 
+### `projectTags`
+
+Project tags in Dependency-Track
+
 ### `autoCreate`
 
 Automatically create project and version in Dependency-Track, default `false`
@@ -64,6 +68,19 @@ with:
   apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
   projectName: 'Example Project'
   projectVersion: 'master'
+  bomFilename: "/path/to/bom.xml"
+  autoCreate: true
+```
+
+With project name, version and tags:
+```
+uses: DependencyTrack/gh-upload-sbom@v2.0.0
+with:
+  serverHostname: 'example.com'
+  apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
+  projectName: 'Example Project'
+  projectVersion: 'master'
+  projectTags: 'tag1,tag2'
   bomFilename: "/path/to/bom.xml"
   autoCreate: true
 ```

@@ -11,6 +11,7 @@ try {
   const project = core.getInput('project');
   const projectName = core.getInput('projectname');
   const projectVersion = core.getInput('projectversion');
+  const projectTags = core.getInput('projecttags').split(',').map(tag => tag.trim());
   const autoCreate = core.getInput('autocreate') !== 'false';
   const bomFilename = core.getInput('bomfilename');
   const parent = core.getInput('parent');
@@ -50,6 +51,7 @@ try {
     bomPayload = {
       projectName: projectName,
       projectVersion: projectVersion,
+      projectTags: projectTags.map(tag => ({name: tag})),
       autoCreate: autoCreate,
       bom: encodedBomContents
     }
