@@ -46,6 +46,9 @@ inputs:
   parentversion:
     description: 'Parent version in Dependency-Track'
     required: false
+outputs:
+  token:
+    description: 'The token response from Dependency-Track after SBOM file upload'
 runs:
   using: 'node20'
   main: 'index.js'
