@@ -63,7 +63,7 @@ async function run() {
     }
 
     if (parent && parent.trim().length > 0) {
-      bomPayload.parent = parent;
+      bomPayload.parentUUID = parent;
     } else if (parentName && parentName.trim().length > 0 && parentVersion && parentVersion.trim().length > 0) {
       bomPayload.parentName = parentName;
       bomPayload.parentVersion = parentVersion;
@@ -93,6 +93,10 @@ async function run() {
     if (response.ok) {
       core.info('Finished uploading BOM to Dependency-Track server.');
     } else {
+      const responseBody = await response.text();
+      if (responseBody) {
+        core.debug(responseBody);
+      }
       core.setFailed('Failed response status code:' + response.status);
     }
 
