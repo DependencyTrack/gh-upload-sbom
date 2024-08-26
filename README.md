@@ -10,7 +10,7 @@ This action uploads a software bill of materials file to a Dependency-Track serv
 
 ### `port`
 
-Defaults to 443
+Defaults to `443`
 
 ### `protocol`
 
@@ -24,7 +24,7 @@ Defaults to `https`
 
 ### `project`
 
-**Required, unless projectname and projectversion are provided** Project uuid in Dependency-Track
+**Required, unless projectName and projectVersion are provided** Project uuid in Dependency-Track
 
 ### `projectName`
 
@@ -36,7 +36,7 @@ Defaults to `https`
 
 ### `projectTags`
 
-Project tags in Dependency-Track
+Comma-separated list of tags (available in DT v4.12 and later)
 
 ### `autoCreate`
 
@@ -48,20 +48,20 @@ Path and filename of the BOM, default `bom.xml`
 
 ### `parent`
 
-Parent project uuid in Dependency-Track
+Parent project uuid in Dependency-Track (available in DT v4.8 and later)
 
 ### `parentName`
 
-**Parent version is also required** Parent project name in Dependency-Track
+**parentVersion is also required** Parent project name in Dependency-Track (available in DT v4.8 and later)
 
 ### `parentVersion`
 
-**Parent name is also required** Parent project version in Dependency-Track
+**parentName is also required** Parent project version in Dependency-Track (available in DT v4.8 and later)
 
 ## Example usage
 
 With project name and version:
-```
+```yml
 uses: DependencyTrack/gh-upload-sbom@v3.0.0
 with:
   serverHostname: 'example.com'
@@ -73,7 +73,7 @@ with:
 ```
 
 With project name, version and tags:
-```
+```yml
 uses: DependencyTrack/gh-upload-sbom@v2.0.0
 with:
   serverHostname: 'example.com'
@@ -86,22 +86,21 @@ with:
 ```
 
 With protocol, port and project name:
-```
-  - name: SBOM zu DependencyTrack senden
-    uses: DependencyTrack/gh-upload-sbom@v3.0.0
-    with:
-      protocol: ${{ secrets.DEPENDENCYTRACK_PROTOCOL }}
-      serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
-      port: ${{ secrets.DEPENDENCYTRACK_PORT }}
-      apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
-      projectName: 'Example Project'
-      projectVersion: 'master'
-      bomFilename: "/path/to/bom.xml"
-      autoCreate: true
+```yml
+uses: DependencyTrack/gh-upload-sbom@v3.0.0
+with:
+  protocol: ${{ secrets.DEPENDENCYTRACK_PROTOCOL }}
+  serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
+  port: ${{ secrets.DEPENDENCYTRACK_PORT }}
+  apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
+  projectName: 'Example Project'
+  projectVersion: 'master'
+  bomFilename: "/path/to/bom.xml"
+  autoCreate: true
 ```
 
 With project uuid:
-```
+```yml
 uses: DependencyTrack/gh-upload-sbom@v3.0.0
 with:
   serverHostname: 'example.com'
@@ -110,24 +109,23 @@ with:
 ```
 
 With protocol, port, project name and parent name:
-```
-  - name: SBOM zu DependencyTrack senden
-    uses: DependencyTrack/gh-upload-sbom@v3.0.0
-    with:
-      protocol: ${{ secrets.DEPENDENCYTRACK_PROTOCOL }}
-      serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
-      port: ${{ secrets.DEPENDENCYTRACK_PORT }}
-      apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
-      projectName: 'Example Project'
-      projectVersion: 'master'
-      bomFilename: "/path/to/bom.xml"
-      autoCreate: true
-      parentName: 'Example Parent'
-      parentVersion: 'master'
+```yml
+uses: DependencyTrack/gh-upload-sbom@v3.0.0
+with:
+  protocol: ${{ secrets.DEPENDENCYTRACK_PROTOCOL }}
+  serverHostname: ${{ secrets.DEPENDENCYTRACK_HOSTNAME }}
+  port: ${{ secrets.DEPENDENCYTRACK_PORT }}
+  apiKey: ${{ secrets.DEPENDENCYTRACK_APIKEY }}
+  projectName: 'Example Project'
+  projectVersion: 'master'
+  bomFilename: "/path/to/bom.xml"
+  autoCreate: true
+  parentName: 'Example Parent'
+  parentVersion: 'master'
 ```
 
 With parent uuid:
-```
+```yml
 uses: DependencyTrack/gh-upload-sbom@v3.0.0
 with:
   serverHostname: 'example.com'
