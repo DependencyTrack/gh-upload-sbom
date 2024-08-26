@@ -26,7 +26,7 @@ inputs:
     description: 'Project version in Dependency-Track'
     required: false
   projecttags:
-    description: 'Project tags in Dependency-Track'
+    description: 'Comma-separated list of tags (available in DT v4.12 and later)'
     default: ''
     required: false
   autocreate:
@@ -38,13 +38,13 @@ inputs:
     default: 'bom.xml'
     required: false
   parent:
-    description: 'Parent project in Dependency-Track'
+    description: 'Parent project UUID in Dependency-Track (available in DT v4.8 and later)'
     required: false
   parentname:
-    description: 'Parent name in Dependency-Track'
+    description: 'Parent project name in Dependency-Track (available in DT v4.8 and later)'
     required: false
   parentversion:
-    description: 'Parent version in Dependency-Track'
+    description: 'Parent project version in Dependency-Track (available in DT v4.8 and later)'
     required: false
 runs:
   using: 'node20'
