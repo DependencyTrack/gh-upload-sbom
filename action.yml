@@ -46,6 +46,10 @@ inputs:
   parentversion:
     description: 'Parent project version in Dependency-Track (available in DT v4.8 and later)'
     required: false
+  islatest:
+    description: "Set version of project like the latest"
+    default: 'false'
+    required: false
 runs:
   using: 'node20'
   main: 'index.js'

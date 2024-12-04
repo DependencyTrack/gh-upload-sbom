@@ -16,6 +16,7 @@ async function run() {
     const parent = core.getInput('parent');
     const parentName = core.getInput('parentname');
     const parentVersion = core.getInput('parentversion');
+    const isLatest = core.getInput('islatest');
 
     if (protocol !== "http" && protocol !== "https") {
       throw 'protocol "' + protocol + '" not supported, must be one of: https, http'
@@ -67,6 +68,10 @@ async function run() {
     } else if (parentName && parentName.trim().length > 0 && parentVersion && parentVersion.trim().length > 0) {
       bomPayload.parentName = parentName;
       bomPayload.parentVersion = parentVersion;
+    }
+    
+    if(isLatest){
+      bomPayload.isLatestProjectVersion = isLatest; 
     }
 
     const postData = JSON.stringify(bomPayload);

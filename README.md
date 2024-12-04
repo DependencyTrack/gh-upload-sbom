@@ -58,6 +58,10 @@ Parent project uuid in Dependency-Track (available in DT v4.8 and later)
 
 **parentName is also required** Parent project version in Dependency-Track (available in DT v4.8 and later)
 
+### `isLatest`
+
+Set version of project like the latest
+
 ## Example usage
 
 With project name and version:
