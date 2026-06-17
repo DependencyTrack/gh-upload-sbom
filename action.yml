@@ -46,6 +46,10 @@ inputs:
   parentversion:
     description: 'Parent project version in Dependency-Track (available in DT v4.8 and later)'
     required: false
+  isLatest:
+    description: 'Set the property isLatest to the uploaded Version'
+    default: 'false'
+    required: false
 runs:
   using: 'node24'
   main: 'index.js'

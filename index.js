@@ -16,6 +16,7 @@ async function run() {
     const parent = core.getInput('parent');
     const parentName = core.getInput('parentname');
     const parentVersion = core.getInput('parentversion');
+    const isLatest = core.getInput('isLatest') !== 'false';
 
     if (protocol !== "http" && protocol !== "https") {
       throw 'protocol "' + protocol + '" not supported, must be one of: https, http'
@@ -60,6 +61,11 @@ async function run() {
         project: project,
         bom: encodedBomContents
       }
+    }
+
+    if (isLatest) {
+      // use 'isLatestProjectVersion' for method PUT and 'isLatest' for POST
+      bomPayload.isLatestProjectVersion = isLatest
     }
 
     if (parent && parent.trim().length > 0) {
