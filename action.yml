@@ -47,5 +47,5 @@ inputs:
     description: 'Parent project version in Dependency-Track (available in DT v4.8 and later)'
     required: false
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'index.js'
