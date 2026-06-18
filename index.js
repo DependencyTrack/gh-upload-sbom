@@ -1,5 +1,5 @@
-const fs = require('fs');
-const core = require('@actions/core');
+import * as fs from 'node:fs';
+import * as core from '@actions/core';
 
 async function run() {
   try {
