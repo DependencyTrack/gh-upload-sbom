@@ -19210,6 +19210,9 @@ var ExitCode;
   ExitCode2[ExitCode2["Success"] = 0] = "Success";
   ExitCode2[ExitCode2["Failure"] = 1] = "Failure";
 })(ExitCode || (ExitCode = {}));
+function setSecret(secret) {
+  issueCommand("add-mask", {}, secret);
+}
 function getInput(name, options) {
   const val = process.env[`INPUT_${name.replace(/ /g, "_").toUpperCase()}`] || "";
   if (options && options.required && !val) {
@@ -19249,6 +19252,7 @@ async function run() {
     const port = getInput("port");
     const protocol = getInput("protocol");
     const apiKey = getInput("apikey");
+    setSecret(apiKey);
     const project = getInput("project");
     const projectName = getInput("projectname");
     const projectVersion = getInput("projectversion");
