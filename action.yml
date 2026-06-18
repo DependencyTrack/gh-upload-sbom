@@ -53,6 +53,8 @@ inputs:
 outputs:
   token:
     description: 'The token response from Dependency-Track after SBOM file upload'
+  projectUuid:
+    description: 'The UUID of the project the BOM was uploaded to (available in DT v5.0.0 and later)'
 runs:
   using: 'node24'
   main: 'dist/index.js'

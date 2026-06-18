@@ -100,6 +100,9 @@ async function run() {
     if (response.ok) {
       const responseJson = await response.json();
       core.setOutput('token', responseJson.token);
+      if (responseJson.projectUuid) {
+        core.setOutput('projectUuid', responseJson.projectUuid);
+      }
       core.info('Finished uploading BOM to Dependency-Track server.');
     } else {
       const responseBody = await response.text();

@@ -68,6 +68,10 @@ Automatically create project and version in Dependency-Track, default `false`
 
 `token` reponse from Dependency-Track server after SBOM file has been uploaded
 
+### `projectUuid`
+
+UUID of the project the BOM was uploaded to (available in Dependency-Track v5.0.0 and later)
+
 ## Example usage
 
 With project name and version:
