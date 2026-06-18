@@ -7,6 +7,7 @@ async function run() {
     const port = core.getInput('port');
     const protocol = core.getInput('protocol');
     const apiKey = core.getInput('apikey');
+    core.setSecret(apiKey);
     const project = core.getInput('project');
     const projectName = core.getInput('projectname');
     const projectVersion = core.getInput('projectversion');
