@@ -19329,6 +19329,9 @@ async function run() {
     if (response.ok) {
       const responseJson = await response.json();
       setOutput("token", responseJson.token);
+      if (responseJson.projectUuid) {
+        setOutput("projectUuid", responseJson.projectUuid);
+      }
       info("Finished uploading BOM to Dependency-Track server.");
     } else {
       const responseBody = await response.text();
