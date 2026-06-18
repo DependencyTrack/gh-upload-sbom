@@ -50,6 +50,9 @@ inputs:
     description: 'Set the property isLatest to the uploaded Version'
     default: 'false'
     required: false
+outputs:
+  token:
+    description: 'The token response from Dependency-Track after SBOM file upload'
 runs:
   using: 'node24'
   main: 'dist/index.js'
