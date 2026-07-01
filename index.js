@@ -40,51 +40,44 @@ async function run() {
     }
 
     core.info(`Reading BOM: ${bomFilename}...`);
-    const bomContents = fs.readFileSync(bomFilename);
-    let encodedBomContents = Buffer.from(bomContents).toString('base64');
-    if (encodedBomContents.startsWith('77u/')) {
-      encodedBomContents = encodedBomContents.substring(4);
+    let bomContents = fs.readFileSync(bomFilename);
+
+    // Remove UTF-8 byte order mark.
+    // NB: Unclear if this is really necessary, but it's existing behavior so ¯\_(ツ)_/¯
+    if (bomContents[0] === 0xef && bomContents[1] === 0xbb && bomContents[2] === 0xbf) {
+      bomContents = bomContents.subarray(3);
     }
 
-    let bomPayload;
+    const form = new FormData();
+    form.append('bom', new Blob([bomContents]), 'bom');
     if (autoCreate) {
-      bomPayload = {
-        projectName: projectName,
-        projectVersion: projectVersion,
-        autoCreate: autoCreate,
-        bom: encodedBomContents
-      }
+      form.append('projectName', projectName);
+      form.append('projectVersion', projectVersion);
+      form.append('autoCreate', 'true');
       if (projectTags) {
-        bomPayload.projectTags = projectTags.split(',').map(tag => ({name: tag.trim()}));
+        form.append('projectTags', projectTags.split(',').map(tag => tag.trim()).join(','));
       }
     } else {
-      bomPayload = {
-        project: project,
-        bom: encodedBomContents
-      }
+      form.append('project', project);
     }
 
     if (isLatest) {
-      // use 'isLatestProjectVersion' for method PUT and 'isLatest' for POST
-      bomPayload.isLatestProjectVersion = isLatest
+      form.append('isLatest', 'true');
     }
 
     if (parent && parent.trim().length > 0) {
-      bomPayload.parentUUID = parent;
+      form.append('parentUUID', parent);
     } else if (parentName && parentName.trim().length > 0 && parentVersion && parentVersion.trim().length > 0) {
-      bomPayload.parentName = parentName;
-      bomPayload.parentVersion = parentVersion;
+      form.append('parentName', parentName);
+      form.append('parentVersion', parentVersion);
     }
 
-    const postData = JSON.stringify(bomPayload);
-
     const requestOptions = {
-      method: 'PUT',
+      method: 'POST',
       headers: {
         'X-API-Key': apiKey,
-        'Content-Type': 'application/json',
       },
-      body: postData
+      body: form
     };
 
     const url = new URL(`${protocol}://${serverHostname}`);
