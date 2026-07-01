@@ -4953,7 +4953,7 @@ var require_formdata = __commonJS({
     var { File: NativeFile } = require("node:buffer");
     var nodeUtil = require("node:util");
     var File = globalThis.File ?? NativeFile;
-    var FormData = class _FormData {
+    var FormData2 = class _FormData {
       constructor(form) {
         webidl.util.markAsUncloneable(this);
         if (form !== void 0) {
@@ -5055,8 +5055,8 @@ var require_formdata = __commonJS({
         return `FormData ${output.slice(output.indexOf("]") + 2)}`;
       }
     };
-    iteratorMixin("FormData", FormData, kState, "name", "value");
-    Object.defineProperties(FormData.prototype, {
+    iteratorMixin("FormData", FormData2, kState, "name", "value");
+    Object.defineProperties(FormData2.prototype, {
       append: kEnumerableProperty,
       delete: kEnumerableProperty,
       get: kEnumerableProperty,
@@ -5084,7 +5084,7 @@ var require_formdata = __commonJS({
       }
       return { name, value };
     }
-    module2.exports = { FormData, makeEntry };
+    module2.exports = { FormData: FormData2, makeEntry };
   }
 });
 
@@ -5354,7 +5354,7 @@ var require_body = __commonJS({
       extractMimeType,
       utf8DecodeBytes
     } = require_util2();
-    var { FormData } = require_formdata();
+    var { FormData: FormData2 } = require_formdata();
     var { kState } = require_symbols2();
     var { webidl } = require_webidl();
     var { Blob: Blob2 } = require("node:buffer");
@@ -5574,13 +5574,13 @@ Content-Type: ${value.type || "application/octet-stream"}\r
                   if (parsed === "failure") {
                     throw new TypeError("Failed to parse body as FormData.");
                   }
-                  const fd = new FormData();
+                  const fd = new FormData2();
                   fd[kState] = parsed;
                   return fd;
                 }
                 case "application/x-www-form-urlencoded": {
                   const entries = new URLSearchParams(value.toString());
-                  const fd = new FormData();
+                  const fd = new FormData2();
                   for (const [name, value2] of entries) {
                     fd.append(name, value2);
                   }
@@ -12214,7 +12214,7 @@ var require_response = __commonJS({
     } = require_constants3();
     var { kState, kHeaders } = require_symbols2();
     var { webidl } = require_webidl();
-    var { FormData } = require_formdata();
+    var { FormData: FormData2 } = require_formdata();
     var { URLSerializer } = require_data_url();
     var { kConstruct } = require_symbols();
     var assert = require("node:assert");
@@ -12527,7 +12527,7 @@ var require_response = __commonJS({
       ReadableStream
     );
     webidl.converters.FormData = webidl.interfaceConverter(
-      FormData
+      FormData2
     );
     webidl.converters.URLSearchParams = webidl.interfaceConverter(
       URLSearchParams
@@ -19279,45 +19279,37 @@ async function run() {
       throw "parentName + parentVersion must both be set";
     }
     info(`Reading BOM: ${bomFilename}...`);
-    const bomContents = fs3.readFileSync(bomFilename);
-    let encodedBomContents = Buffer.from(bomContents).toString("base64");
-    if (encodedBomContents.startsWith("77u/")) {
-      encodedBomContents = encodedBomContents.substring(4);
+    let bomContents = fs3.readFileSync(bomFilename);
+    if (bomContents[0] === 239 && bomContents[1] === 187 && bomContents[2] === 191) {
+      bomContents = bomContents.subarray(3);
     }
-    let bomPayload;
+    const form = new FormData();
+    form.append("bom", new Blob([bomContents]), "bom");
     if (autoCreate) {
-      bomPayload = {
-        projectName,
-        projectVersion,
-        autoCreate,
-        bom: encodedBomContents
-      };
+      form.append("projectName", projectName);
+      form.append("projectVersion", projectVersion);
+      form.append("autoCreate", "true");
       if (projectTags) {
-        bomPayload.projectTags = projectTags.split(",").map((tag) => ({ name: tag.trim() }));
+        form.append("projectTags", projectTags.split(",").map((tag) => tag.trim()).join(","));
       }
     } else {
-      bomPayload = {
-        project,
-        bom: encodedBomContents
-      };
+      form.append("project", project);
     }
     if (isLatest) {
-      bomPayload.isLatestProjectVersion = isLatest;
+      form.append("isLatest", "true");
     }
     if (parent && parent.trim().length > 0) {
-      bomPayload.parentUUID = parent;
+      form.append("parentUUID", parent);
     } else if (parentName && parentName.trim().length > 0 && parentVersion && parentVersion.trim().length > 0) {
-      bomPayload.parentName = parentName;
-      bomPayload.parentVersion = parentVersion;
+      form.append("parentName", parentName);
+      form.append("parentVersion", parentVersion);
     }
-    const postData = JSON.stringify(bomPayload);
     const requestOptions = {
-      method: "PUT",
+      method: "POST",
       headers: {
-        "X-API-Key": apiKey,
-        "Content-Type": "application/json"
+        "X-API-Key": apiKey
       },
-      body: postData
+      body: form
     };
     const url = new URL(`${protocol}://${serverHostname}`);
     if (port) {
