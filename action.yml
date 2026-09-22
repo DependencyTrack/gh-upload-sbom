@@ -14,8 +14,17 @@ inputs:
     required: false
     default: 'https'
   api-key:
-    description: 'Dependency-Track API key'
-    required: true
+    description: 'Dependency-Track API key (required unless workload-identity-provider is set)'
+    required: false
+  workload-identity-provider:
+    description: 'Name of the workload identity provider in Dependency-Track to exchange the GitHub OIDC token with, instead of using api-key (available in DT v5.2.0 and later)'
+    required: false
+  service-account:
+    description: 'Name of the Dependency-Track service account to act as when using workload-identity-provider'
+    required: false
+  oidc-audience:
+    description: 'Audience of the GitHub OIDC token, must match the audience of the workload identity provider (required when using workload-identity-provider)'
+    required: false
   project:
     description: 'Project in Dependency-Track'
     required: false

@@ -5,6 +5,34 @@ function getInput(name, deprecatedName, defaultValue = '') {
   return core.getInput(name) || core.getInput(deprecatedName) || defaultValue;
 }
 
+async function exchangeIdToken(baseUrl, provider, serviceAccount, audience) {
+  core.info(`Requesting GitHub OIDC token for audience ${audience}...`);
+  const idToken = await core.getIDToken(audience);
+
+  core.info(`Exchanging GitHub OIDC token for a session of service account ${serviceAccount}...`);
+  const response = await fetch(new URL('/api/v2/oauth/token', baseUrl), {
+    method: 'POST',
+    body: new URLSearchParams({
+      grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',
+      subject_token: idToken,
+      subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
+      workload_identity_provider: provider,
+      service_account: serviceAccount,
+    }),
+  });
+  if (!response.ok) {
+    const responseBody = await response.text();
+    if (responseBody) {
+      core.debug(responseBody);
+    }
+    throw new Error(`Token exchange failed with response status code: ${response.status}`);
+  }
+
+  const accessToken = (await response.json()).access_token;
+  core.setSecret(accessToken);
+  return accessToken;
+}
+
 async function run() {
   try {
     const serverHostname = getInput('server-hostname', 'serverhostname');
@@ -12,6 +40,9 @@ async function run() {
     const protocol = core.getInput('protocol');
     const apiKey = getInput('api-key', 'apikey');
     core.setSecret(apiKey);
+    const workloadIdentityProvider = core.getInput('workload-identity-provider');
+    const serviceAccount = core.getInput('service-account');
+    const oidcAudience = core.getInput('oidc-audience');
     const project = core.getInput('project');
     const projectName = getInput('project-name', 'projectname');
     const projectVersion = getInput('project-version', 'projectversion');
@@ -25,6 +56,19 @@ async function run() {
 
     if (protocol !== "http" && protocol !== "https") {
       throw new Error(`protocol "${protocol}" not supported, must be one of: https, http`);
+    }
+
+    const useWorkloadIdentity = workloadIdentityProvider !== "";
+    if (useWorkloadIdentity === (apiKey !== "")) {
+      throw new Error('either api-key or workload-identity-provider must be set');
+    }
+
+    if (useWorkloadIdentity && (serviceAccount === "" || oidcAudience === "")) {
+      throw new Error('service-account + oidc-audience must be set when using workload-identity-provider');
+    }
+
+    if (!useWorkloadIdentity && (serviceAccount !== "" || oidcAudience !== "")) {
+      throw new Error('service-account + oidc-audience require workload-identity-provider');
     }
 
     if (project === "" && (projectName === "" || projectVersion === "")) {
@@ -72,19 +116,22 @@ async function run() {
       form.append('parentVersion', parentVersion);
     }
 
+    const baseUrl = new URL(`${protocol}://${serverHostname}`);
+    if (port) {
+      baseUrl.port = port;
+    }
+
+    const headers = useWorkloadIdentity
+      ? { 'Authorization': `Bearer ${await exchangeIdToken(baseUrl, workloadIdentityProvider, serviceAccount, oidcAudience)}` }
+      : { 'X-API-Key': apiKey };
+
     const requestOptions = {
       method: 'POST',
-      headers: {
-        'X-API-Key': apiKey,
-      },
+      headers,
       body: form
     };
 
-    const url = new URL(`${protocol}://${serverHostname}`);
-    if (port) {
-      url.port = port;
-    }
-    url.pathname = '/api/v1/bom';
+    const url = new URL('/api/v1/bom', baseUrl);
 
     core.info(`Uploading to Dependency-Track server ${serverHostname}...`);
 

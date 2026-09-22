@@ -25,7 +25,22 @@ Defaults to `https`
 
 ### `api-key`
 
-**Required** Dependency-Track API key
+**Required, unless workload-identity-provider is provided** Dependency-Track API key
+
+### `workload-identity-provider`
+
+**service-account and oidc-audience are also required** Name of the workload identity provider in Dependency-Track.
+Authenticates with the job's GitHub OIDC token instead of an API key (available in DT v5.2.0 and later).
+See [Workload identity federation](#workload-identity-federation).
+
+### `service-account`
+
+**workload-identity-provider and oidc-audience are also required** Name of the service account in Dependency-Track to act as
+
+### `oidc-audience`
+
+**workload-identity-provider and service-account are also required** Audience of the GitHub OIDC token.
+Must match the audience of the workload identity provider
 
 ### `project`
 
@@ -101,6 +116,35 @@ If both names are set, the current one wins.
 | `projectUuid`     | `project-uuid` |
 
 Both outputs are still populated, so existing workflows keep working until the next major release.
+
+## Workload identity federation
+
+> [!IMPORTANT]
+> Workload identity federation requires Dependency-Track v5.2.0 or later.
+> Older versions reject the token exchange.
+
+Instead of storing an API key as a secret, the action can exchange the job's GitHub OIDC token
+for a short-lived Dependency-Track session.
+See [Workload identity federation](https://dependencytrack.github.io/docs/next/concepts/workload-identity-federation/) for how it works,
+and [Configuring workload identity federation](https://dependencytrack.github.io/docs/next/guides/administration/configuring-workload-identity-federation/#github-actions)
+for how to set it up for GitHub Actions.
+
+```yml
+permissions:
+  id-token: write
+  contents: read
+steps:
+  - uses: DependencyTrack/gh-upload-sbom@v4
+    with:
+      server-hostname: 'example.com'
+      workload-identity-provider: 'github-actions'
+      service-account: 'ci'
+      oidc-audience: 'https://dependency-track.example.com'
+      project-name: 'Example Project'
+      project-version: 'master'
+      bom-filename: "/path/to/bom.xml"
+      auto-create: true
+```
 
 ## Example usage
 
